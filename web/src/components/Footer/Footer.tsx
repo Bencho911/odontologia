@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle, Phone, MapPin, Instagram, Facebook } from "lucide-react";
+import { MessageCircle, Phone, MapPin, Instagram, Share2 } from "lucide-react";
 import styles from "./Footer.module.css";
 
 const WHATSAPP_NUMBER = "573143457474";
@@ -68,7 +68,7 @@ export default function Footer() {
                   <Instagram size={18} />
                 </a>
                 <a href="#" className={styles.socialLink} aria-label="Facebook" id="footer-facebook">
-                  <Facebook size={18} />
+                  <Share2 size={18} />
                 </a>
                 <a
                   href={`https://wa.me/${WHATSAPP_NUMBER}`}

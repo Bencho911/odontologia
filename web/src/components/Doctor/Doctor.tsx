@@ -11,7 +11,7 @@ export default function Doctor() {
           {/* Left - Photo */}
           <motion.div className={styles.left} initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <div className={styles.photoWrap}>
-              <Image src="/Doctor.jpeg" alt="Dra. Patricia Nieves Kiriaco - Odontóloga" fill style={{ objectFit: "cover" }} quality={90} />
+              <Image src="/Doctor.jpeg" alt="Dr. Felipe Gómez Amaya - Ortodoncista" fill style={{ objectFit: "cover", objectPosition: "top" }} quality={90} />
             </div>
           </motion.div>
 

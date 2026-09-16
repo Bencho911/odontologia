@@ -1,162 +1,73 @@
 "use client";
-
 import { motion } from "framer-motion";
-import { ChevronDown, Phone, MessageCircle } from "lucide-react";
 import Image from "next/image";
+import { MessageCircle, Phone } from "lucide-react";
 import styles from "./Hero.module.css";
 
-const WHATSAPP_NUMBER = "573143457474";
-const WHATSAPP_MSG = encodeURIComponent(
-  "Hola Dr. Felipe! Me gustaría agendar una cita. ¿Cuándo tiene disponibilidad?"
-);
-
-const stats = [
-  { value: "+500", label: "Pacientes satisfechos" },
-  { value: "7+", label: "Años de experiencia" },
-  { value: "7", label: "Especialidades" },
-];
+const WHATSAPP = "573143457474";
+const WA_MSG = encodeURIComponent("Hola Dr. Felipe! Me gustaría agendar una cita. ¿Cuándo tiene disponibilidad?");
 
 export default function Hero() {
-  const scrollToServices = () => {
-    document.getElementById("servicios")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <section id="inicio" className={styles.hero}>
-      {/* Background Image */}
-      <div className={styles.bgImage}>
-        <Image
-          src="/clinica.jpg"
-          alt="Consultorio del Dr. Felipe Gómez Amaya en Armenia Quindío"
-          fill
-          style={{ objectFit: "cover" }}
-          priority
-          quality={90}
-        />
-        <div className={styles.bgOverlay} />
-      </div>
-
-      {/* Decorative Orbs */}
-      <div className={styles.orb1} aria-hidden />
-      <div className={styles.orb2} aria-hidden />
-
-      {/* Content */}
-      <div className={`container ${styles.content}`}>
+      <div className={`container ${styles.inner}`}>
+        {/* Left */}
         <div className={styles.left}>
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <span className="section-label">
-              Consultorio 805 · Medisalud · Armenia, Quindío
-            </span>
-          </motion.div>
+          <motion.span className="section-label" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            Ortodoncista · Armenia, Quindío
+          </motion.span>
 
-          {/* Heading */}
-          <motion.h1
-            className={styles.heading}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.25 }}
-          >
-            Tu sonrisa,
-            <br />
-            <span className="text-gradient">nuestra pasión</span>
+          <motion.h1 className={`section-title ${styles.heading}`} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
+            Dr. Felipe<br />Gómez Amaya
           </motion.h1>
 
-          {/* Subtitle */}
-          <motion.p
-            className={styles.subtitle}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            El <strong>Dr. Felipe Gómez Amaya</strong> ofrece tratamientos odontológicos
-            de alta calidad con tecnología moderna, atención personalizada y
-            los más altos estándares de comodidad para cada paciente.
+          <motion.p className={styles.sub} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.25 }}>
+            Transformamos sonrisas con ortodoncia convencional e invisible, blanqueamiento dental, diseño de sonrisa y mucho más. Atención personalizada con tecnología de punta en el corazón de Armenia.
           </motion.p>
 
-          {/* Actions */}
-          <motion.div
-            className={styles.actions}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.55 }}
-          >
-            <a
-              id="hero-whatsapp-cta"
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MSG}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary"
-            >
-              <MessageCircle size={18} />
-              Agendar por WhatsApp
+          <motion.div className={styles.actions} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.38 }}>
+            <a href={`https://wa.me/${WHATSAPP}?text=${WA_MSG}`} target="_blank" rel="noopener noreferrer" className="btn btn-blue" id="hero-wa-cta">
+              <MessageCircle size={18} /> Agendar por WhatsApp
             </a>
-            <a href="tel:3143457474" className="btn btn-outline" id="hero-phone-cta">
-              <Phone size={18} />
-              Llamar ahora
+            <a href="tel:3143457474" className="btn btn-outline-cyan" id="hero-phone-cta">
+              <Phone size={16} /> Llamar ahora
             </a>
           </motion.div>
 
           {/* Stats */}
-          <motion.div
-            className={styles.stats}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-          >
-            {stats.map((stat, i) => (
-              <div key={i} className={styles.stat}>
-                <span className={styles.statValue}>{stat.value}</span>
-                <span className={styles.statLabel}>{stat.label}</span>
+          <motion.div className={styles.stats} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }}>
+            {[
+              { n: "+500", l: "Pacientes satisfechos" },
+              { n: "7+", l: "Años de experiencia" },
+              { n: "7", l: "Especialidades" },
+            ].map(s => (
+              <div key={s.l} className={styles.stat}>
+                <span className={styles.statN}>{s.n}</span>
+                <span className={styles.statL}>{s.l}</span>
               </div>
             ))}
           </motion.div>
         </div>
 
-        {/* Right: floating card */}
-        <motion.div
-          className={styles.right}
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
-          <div className={styles.doctorCard}>
-            <div className={styles.doctorImageWrap}>
-              <Image
-                src="/Doctor.jpeg"
-                alt="Dr. Felipe Gómez Amaya - Odontólogo en Armenia Quindío"
-                fill
-                style={{ objectFit: "cover", objectPosition: "top" }}
-                quality={90}
-              />
+        {/* Right — Doctor photo */}
+        <motion.div className={styles.right} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.15 }}>
+          <div className={styles.photoFrame}>
+            <div className={styles.photoBubble1} />
+            <div className={styles.photoBubble2} />
+            <div className={styles.photoCard}>
+              <Image src="/Doctor.jpeg" alt="Dr. Felipe Gómez Amaya — Ortodoncista en Armenia Quindío" fill style={{ objectFit: "cover", objectPosition: "top center" }} priority quality={92} />
             </div>
-            <div className={styles.doctorInfo}>
-              <p className={styles.doctorName}>Dr. Felipe Gómez Amaya</p>
-              <p className={styles.doctorTitle}>Odontólogo Especialista</p>
-              <div className={styles.doctorBadge}>
-                <span className={styles.onlineDot} />
-                Atendiendo pacientes
+            {/* Location badge */}
+            <div className={styles.badge}>
+              <span className={styles.badgeDot} />
+              <div>
+                <p className={styles.badgeMain}>Medisalud, Consul. 805</p>
+                <p className={styles.badgeSub}>Armenia, Quindío</p>
               </div>
             </div>
           </div>
         </motion.div>
       </div>
-
-      {/* Scroll hint */}
-      <motion.button
-        className={styles.scrollHint}
-        onClick={scrollToServices}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        aria-label="Ver servicios"
-      >
-        <ChevronDown size={20} />
-      </motion.button>
     </section>
   );
 }

@@ -1,0 +1,54 @@
+.section { background: var(--bg); padding: var(--section-pad); }
+
+.header { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; margin-bottom: 56px; }
+
+.grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+.card {
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.name {
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--dark);
+}
+.source {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--gray-mid);
+  background: rgba(68,198,233,0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  color: var(--cyan);
+}
+.stars { display: flex; gap: 4px; }
+.text {
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--gray-mid);
+  line-height: 1.65;
+}
+
+/* Dots */
+.dots { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 40px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: #D9D9D9; }
+.dotActive { width: 18px; height: 18px; background: var(--blue); }
+
+/* Google link */
+.googleLink { display: flex; justify-content: center; margin-top: 32px; }
+
+@media (max-width: 1024px) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }

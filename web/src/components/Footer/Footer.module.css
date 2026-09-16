@@ -1,219 +1,24 @@
 .footer {
-  background: var(--color-navy-900);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: #252525;
+  padding: 13px 0;
 }
 
-/* CTA Banner */
-.ctaBanner {
-  background: linear-gradient(135deg, var(--color-teal-800), var(--color-teal-900));
-  padding: var(--space-12) 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.ctaBanner::before {
-  content: '';
-  position: absolute;
-  top: -80px;
-  right: -80px;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.bannerContent {
+.content {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-8);
-  flex-wrap: wrap;
-}
-
-.bannerTitle {
-  font-size: var(--fs-2xl);
-  font-weight: 800;
-  color: var(--color-white);
-  letter-spacing: -0.01em;
-  margin-bottom: var(--space-2);
-}
-
-.bannerSub {
-  font-size: var(--fs-base);
-  color: rgba(255, 255, 255, 0.75);
-}
-
-/* Main Footer */
-.main {
-  padding: var(--space-20) 0 var(--space-16);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 2fr 1.2fr 1.2fr;
-  gap: var(--space-16);
-}
-
-/* Brand Column */
-.brand {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.logoIcon {
-  width: 64px;
-  height: 64px;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: white;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  align-items: center;
 }
 
-.brandName {
-  font-size: var(--fs-xl);
-  font-weight: 800;
-  color: var(--color-white);
-}
-
-.brandTagline {
-  font-size: var(--fs-sm);
-  color: var(--accent);
+.text {
+  font-family: var(--font-title);
   font-weight: 500;
-  margin-top: -var(--space-2);
-}
-
-.brandDesc {
-  font-size: var(--fs-sm);
-  color: var(--text-secondary);
-  line-height: 1.75;
-  max-width: 320px;
-}
-
-.socials {
-  display: flex;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
-}
-
-.socialLink {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-secondary);
-  transition: all var(--transition-base);
-}
-
-.socialLink:hover {
-  background: rgba(20, 184, 166, 0.12);
-  border-color: rgba(20, 184, 166, 0.3);
-  color: var(--accent);
-  transform: translateY(-2px);
-}
-
-/* Columns */
-.colTitle {
-  font-size: var(--fs-sm);
-  font-weight: 700;
-  color: var(--color-white);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: var(--space-5);
-}
-
-.list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.listLink {
-  font-size: var(--fs-sm);
-  color: var(--text-secondary);
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  transition: color var(--transition-base);
-  font-family: inherit;
-  text-align: left;
-}
-
-.listLink:hover {
-  color: var(--accent-light);
-}
-
-/* Contact List */
-.contactList {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.contactItem {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-3);
-  font-size: var(--fs-sm);
-  color: var(--text-secondary);
-  transition: color var(--transition-base);
-  line-height: 1.6;
-}
-
-.contactItem:hover {
-  color: var(--accent-light);
-}
-
-/* Bottom Bar */
-.bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding: var(--space-6) 0;
-}
-
-.copy {
-  font-size: var(--fs-xs);
-  color: var(--text-muted);
+  font-size: 20px;
+  color: var(--bg);
   text-align: center;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-10);
-  }
-
-  .brand {
-    grid-column: 1 / -1;
-  }
-
-  .brandDesc {
-    max-width: none;
-  }
-}
-
 @media (max-width: 640px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .bannerContent {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .bannerContent .btn {
-    width: 100%;
-    justify-content: center;
+  .text {
+    font-size: 16px;
   }
 }

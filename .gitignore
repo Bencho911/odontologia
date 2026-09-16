@@ -1,0 +1,25 @@
+# Agent / AI config folders (do not commit)
+.agents/
+.claude/
+
+# Next.js
+web/.next/
+web/out/
+web/build/
+
+# Dependencies
+web/node_modules/
+
+# Environment variables
+web/.env
+web/.env.local
+web/.env.*.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db

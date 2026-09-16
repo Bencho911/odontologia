@@ -1,0 +1,176 @@
+.contact {
+  background: var(--bg-primary);
+  position: relative;
+}
+
+.contact::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.3), transparent);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-20);
+  align-items: start;
+}
+
+/* Info Column */
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.title {
+  font-size: clamp(var(--fs-3xl), 4vw, var(--fs-5xl));
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-size: var(--fs-base);
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+/* Contact Cards */
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.contactCard {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  transition: all var(--transition-base);
+}
+
+.contactCardLink {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.contactCardLink:hover .cardValue {
+  color: var(--accent-light);
+}
+
+.cardIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: rgba(20, 184, 166, 0.1);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.cardLabel {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cardValue {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--color-white);
+  transition: color var(--transition-base);
+}
+
+.cardDetail {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+/* CTA Group */
+.ctaGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.whatsappBtn {
+  flex: 1;
+  justify-content: center;
+  min-width: 200px;
+}
+
+.phoneBtn {
+  justify-content: center;
+}
+
+/* Map Column */
+.mapCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  position: sticky;
+  top: 100px;
+}
+
+.mapWrapper {
+  height: 520px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-lg);
+}
+
+.mapCaption {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  padding: 0 var(--space-2);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+
+  .mapCol {
+    position: static;
+  }
+
+  .mapWrapper {
+    height: 350px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ctaGroup {
+    flex-direction: column;
+  }
+
+  .whatsappBtn,
+  .phoneBtn {
+    width: 100%;
+  }
+}

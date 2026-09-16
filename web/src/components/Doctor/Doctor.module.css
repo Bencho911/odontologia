@@ -1,0 +1,154 @@
+.doctor {
+  background: var(--color-gray-50);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-20);
+  align-items: center;
+}
+
+/* Image Column */
+.imageCol {
+  position: relative;
+}
+
+.imageFrame {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.imageBg {
+  position: absolute;
+  inset: -20px;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.12), rgba(13, 148, 136, 0.06));
+  border-radius: var(--radius-2xl);
+  transform: rotate(-3deg);
+}
+
+.imageCard {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 3/4;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  border: 4px solid white;
+}
+
+.floatingBadge {
+  position: absolute;
+  bottom: 40px;
+  right: -20px;
+  background: var(--gradient-accent);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8px 30px rgba(20, 184, 166, 0.5);
+  animation: float 4s ease-in-out infinite;
+}
+
+.floatingNum {
+  font-size: var(--fs-3xl);
+  font-weight: 800;
+  color: white;
+  line-height: 1;
+}
+
+.floatingText {
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  font-weight: 500;
+  margin-top: var(--space-1);
+}
+
+/* Content Column */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.title {
+  font-size: clamp(var(--fs-3xl), 3.5vw, var(--fs-5xl));
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+  line-height: 1.1;
+}
+
+.bio {
+  font-size: var(--fs-base);
+  color: var(--text-dark-secondary);
+  line-height: 1.8;
+}
+
+.bio strong {
+  color: var(--accent-dark);
+  font-weight: 600;
+}
+
+/* Qualities */
+.qualities {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin-top: var(--space-2);
+}
+
+.qualityItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.qualityIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: rgba(20, 184, 166, 0.1);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-dark);
+  flex-shrink: 0;
+}
+
+.qualityTitle {
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: var(--space-1);
+}
+
+.qualityDesc {
+  font-size: var(--fs-sm);
+  color: var(--text-dark-secondary);
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+
+  .imageCol {
+    order: -1;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .floatingBadge {
+    right: 0;
+  }
+}

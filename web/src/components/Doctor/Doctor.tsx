@@ -45,10 +45,10 @@ export default function Doctor() {
               <div className={styles.imageBg} />
               <div className={styles.imageCard}>
                 <Image
-                  src="/doctor.png"
-                  alt="Dr. Felipe Gómez Amaya - Odontólogo especialista en Armenia Quindío"
+                  src="/Doctor.jpeg"
+                  alt="Dr. Felipe Gómez Amaya - Ortodoncista en Armenia Quindío"
                   fill
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "cover", objectPosition: "top center" }}
                   quality={90}
                 />
               </div>

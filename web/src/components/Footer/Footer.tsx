@@ -1,6 +1,7 @@
 "use client";
 
 import { MessageCircle, Phone, MapPin, Camera, Share2 } from "lucide-react";
+import Image from "next/image";
 import styles from "./Footer.module.css";
 
 const WHATSAPP_NUMBER = "573143457474";
@@ -52,13 +53,16 @@ export default function Footer() {
             {/* Brand */}
             <div className={styles.brand}>
               <div className={styles.logoIcon}>
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
-                  <path d="M16 4C16 4 8 8 8 16C8 20 10 23 13 25C13 25 13 28 16 28C19 28 19 25 19 25C22 23 24 20 24 16C24 8 16 4 16 4Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-                  <path d="M13 17C13 17 14 19 16 19C18 19 19 17 19 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
+                <Image
+                  src="/logo.jpg"
+                  alt="Logo Dr. Felipe Gómez Amaya"
+                  width={60}
+                  height={60}
+                  style={{ objectFit: "contain" }}
+                />
               </div>
               <h4 className={styles.brandName}>Dr. Felipe Gómez Amaya</h4>
-              <p className={styles.brandTagline}>Odontología Especializada</p>
+              <p className={styles.brandTagline}>Ortodoncista · Armenia, Quindío</p>
               <p className={styles.brandDesc}>
                 Comprometidos con tu salud bucal y la mejor sonrisa, utilizando
                 tecnología de vanguardia con un trato cálido y personalizado.

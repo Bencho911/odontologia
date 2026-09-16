@@ -26,8 +26,8 @@ export default function Hero() {
       {/* Background Image */}
       <div className={styles.bgImage}>
         <Image
-          src="/hero.png"
-          alt="Consultorio odontológico moderno"
+          src="/clinica.jpg"
+          alt="Consultorio del Dr. Felipe Gómez Amaya en Armenia Quindío"
           fill
           style={{ objectFit: "cover" }}
           priority
@@ -127,11 +127,11 @@ export default function Hero() {
           <div className={styles.doctorCard}>
             <div className={styles.doctorImageWrap}>
               <Image
-                src="/doctor.png"
+                src="/Doctor.jpeg"
                 alt="Dr. Felipe Gómez Amaya - Odontólogo en Armenia Quindío"
                 fill
-                style={{ objectFit: "cover" }}
-                quality={85}
+                style={{ objectFit: "cover", objectPosition: "top" }}
+                quality={90}
               />
             </div>
             <div className={styles.doctorInfo}>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Menu, X } from "lucide-react";
+import Image from "next/image";
 import styles from "./Navbar.module.css";
 
 const navLinks = [
@@ -61,14 +62,18 @@ export default function Navbar() {
           onClick={(e) => { e.preventDefault(); handleNavClick("#inicio"); }}
         >
           <div className={styles.logoIcon}>
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
-              <path d="M16 4C16 4 8 8 8 16C8 20 10 23 13 25C13 25 13 28 16 28C19 28 19 25 19 25C22 23 24 20 24 16C24 8 16 4 16 4Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-              <path d="M13 17C13 17 14 19 16 19C18 19 19 17 19 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
+            <Image
+              src="/logo.jpg"
+              alt="Logo Dr. Felipe Gómez Amaya - Ortodoncista"
+              width={44}
+              height={44}
+              style={{ objectFit: "contain" }}
+              priority
+            />
           </div>
           <div className={styles.logoText}>
             <span className={styles.logoName}>Dr. Felipe Gómez</span>
-            <span className={styles.logoSub}>Odontología</span>
+            <span className={styles.logoSub}>Ortodoncista</span>
           </div>
         </a>
 

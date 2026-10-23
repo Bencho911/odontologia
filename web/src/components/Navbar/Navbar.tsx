@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Phone, Menu, X, MessageCircle } from "lucide-react";
+import { Phone, Menu, X, CalendarCheck } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 const navLinks = [
@@ -12,9 +12,8 @@ const navLinks = [
   { label: "Contacto", id: "contacto" },
 ];
 
-const WHATSAPP = "573143457474";
-const WA_MSG = encodeURIComponent("Hola Dr. Felipe, me gustaría agendar una cita. ¿Cuándo tiene disponibilidad?");
-const WA_URL = `https://wa.me/${WHATSAPP}?text=${WA_MSG}`;
+// Todas las secciones que se observan (las que no están en el menú limpian el enlace activo)
+const sectionIds = ["inicio", "servicios", "casos", "doctor", "clinica", "opiniones", "preguntas", "contacto"];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,12 +28,14 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Sección activa: la que cruza la franja superior de la pantalla
+  // Sección activa: la que cruza la franja superior de la pantalla; si no está en el menú, no hay ninguna activa
   useEffect(() => {
-    const els = navLinks.map((l) => document.getElementById(l.id)).filter(Boolean) as HTMLElement[];
+    const els = sectionIds.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const io = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(navLinks.some((l) => l.id === e.target.id) ? e.target.id : "");
+        });
       },
       { rootMargin: "-30% 0px -60% 0px" },
     );
@@ -59,7 +60,7 @@ export default function Navbar() {
     <header className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
       <div className={`container ${styles.inner}`}>
         <a href="#inicio" className={styles.logo}>
-          <Image src="/logo.jpg" alt="" width={48} height={26} sizes="48px" priority className={styles.logoImg} />
+          <Image src="/logo.jpg" alt="" width={48} height={26} sizes="48px" preload className={styles.logoImg} />
           <span className={styles.logoText}>
             <span className={styles.logoName}>Dr. Felipe Gómez Amaya</span>
             <span className={styles.logoSub}>Ortodoncia y ortopedia maxilar</span>
@@ -86,9 +87,8 @@ export default function Navbar() {
           <a href="tel:+573143457474" className={styles.phone}>
             <Phone size={16} aria-hidden="true" /> 314 345 7474
           </a>
-          <a href={WA_URL} target="_blank" rel="noopener noreferrer" className={`btn btn-accent ${styles.cta}`}>
-            <MessageCircle size={18} aria-hidden="true" /> Agendar cita
-            <span className="sr-only"> (se abre en una pestaña nueva)</span>
+          <a href="#contacto" className={`btn btn-accent ${styles.cta}`}>
+            <CalendarCheck size={18} aria-hidden="true" /> Agendar cita
           </a>
         </div>
 
@@ -99,7 +99,7 @@ export default function Navbar() {
           onClick={() => setMenuOpen((v) => !v)}
           aria-expanded={menuOpen}
           aria-controls="menu-movil"
-          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-label="Menú"
         >
           {menuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
         </button>
@@ -109,15 +109,19 @@ export default function Navbar() {
         <ul className="container">
           {navLinks.map((l) => (
             <li key={l.id}>
-              <a href={`#${l.id}`} className={styles.mLink} onClick={() => setMenuOpen(false)}>
+              <a
+                href={`#${l.id}`}
+                className={styles.mLink}
+                aria-current={active === l.id ? "location" : undefined}
+                onClick={() => setMenuOpen(false)}
+              >
                 {l.label}
               </a>
             </li>
           ))}
           <li className={styles.mCta}>
-            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp btn-lg" style={{ width: "100%" }}>
-              <MessageCircle size={18} aria-hidden="true" /> Agendar por WhatsApp
-              <span className="sr-only"> (se abre en una pestaña nueva)</span>
+            <a href="#contacto" className={`btn btn-accent btn-lg ${styles.mCtaBtn}`} onClick={() => setMenuOpen(false)}>
+              <CalendarCheck size={18} aria-hidden="true" /> Agendar cita
             </a>
           </li>
         </ul>

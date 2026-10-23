@@ -9,7 +9,7 @@
   width: 3.5rem; height: 3.5rem; border-radius: var(--radius-control);
   background: var(--marble-deep); color: var(--teal-700);
 }
-.title { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
+.titleRow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
 .tag {
   font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; letter-spacing: 0;
   padding: 0.25rem 0.75rem; border-radius: var(--radius-control);

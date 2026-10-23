@@ -96,7 +96,7 @@ export default function Contact() {
 
         <Reveal delay={0.1}>
           <div className={`${styles.card} on-light`}>
-            <h3 className={styles.formTitle}>Pide tu cita en un minuto</h3>
+            <h3 className={styles.formTitle}>Completa tus datos</h3>
             <form onSubmit={handleSubmit} className={styles.form} noValidate>
               {fields.map((f) => {
                 const err = errors[f.name];

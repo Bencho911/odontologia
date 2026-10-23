@@ -1,29 +1,48 @@
 "use client";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 /**
- * Fundido al entrar en pantalla. Solo opacidad (sin desplazamiento) y se omite si la
- * persona pidió reducir el movimiento. Sustituye las animaciones sueltas de cada sección.
+ * Fundido al entrar en pantalla, solo con CSS + IntersectionObserver (sin librerías).
+ * - Solo opacidad (sin desplazamiento).
+ * - Sin JavaScript el contenido se ve igual: el estado inicial oculto solo existe bajo `.js` (ver layout).
+ * - Con prefers-reduced-motion no hay fundido (ver globals.css).
  */
 export default function Reveal({
   children,
   delay = 0,
-  className,
+  className = "",
 }: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (!("IntersectionObserver" in window)) {
+      el.classList.add("is-visible");
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-visible");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <motion.div
-      className={className}
-      initial={reduce ? false : { opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <div ref={ref} className={`reveal ${className}`} style={delay ? ({ "--reveal-delay": `${delay}s` } as React.CSSProperties) : undefined}>
       {children}
-    </motion.div>
+    </div>
   );
 }

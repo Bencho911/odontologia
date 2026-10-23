@@ -69,12 +69,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${bricolage.variable} ${sourceSans.variable}`}>
+    // suppressHydrationWarning: el script de abajo añade la clase `js` a <html> antes de hidratar.
+    <html lang="es" className={`${bricolage.variable} ${sourceSans.variable}`} suppressHydrationWarning>
       <head>
-        {/* Sin JavaScript, el contenido que se funde al hacer scroll debe verse igual */}
-        <noscript>
-          <style>{`[style*="opacity: 0"],[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
-        </noscript>
+        {/* La clase `js` activa el fundido por scroll; sin JavaScript todo el contenido se ve desde el inicio */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>

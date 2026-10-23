@@ -33,10 +33,10 @@ export default function Services() {
                   <div className={styles.row}>
                     <span className={styles.icon}><Icon size={28} strokeWidth={1.6} aria-hidden="true" /></span>
                     <div>
-                      <h3 className={styles.title}>
-                        {s.title}
+                      <div className={styles.titleRow}>
+                        <h3>{s.title}</h3>
                         {s.specialty && <span className={styles.tag}>Especialidad</span>}
-                      </h3>
+                      </div>
                       <p className={styles.desc}>{s.desc}</p>
                     </div>
                   </div>

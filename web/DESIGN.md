@@ -46,6 +46,10 @@ Enlace "Saltar al contenido", navegación con enlaces reales y `aria-current`, m
 Quité cifras sin base (+500 pacientes, 7+ años), el texto "[Universidad]" y el voseo argentino. Las opiniones están marcadas como **demo**. Las fotos de casos clínicos son del portafolio del doctor (llevan su marca de agua); **antes de publicarlas hace falta el consentimiento por escrito de cada paciente**.
 
 ## Excepciones documentadas
-- `Reveal`, `Navbar` y `Contact` son componentes de cliente; el resto son de servidor.
+- `Reveal`, `Navbar` y `Contact` son componentes de cliente; el resto son de servidor. `Reveal` ya no usa librerías: IntersectionObserver + CSS (se quitó `framer-motion`, que quedó sin uso).
+- `themeColor` en `layout.tsx` repite `--navy-900`: los metadatos de Next no pueden leer variables CSS.
+- `next.config.ts` declara las calidades de imagen permitidas (`[75, 82, 85, 88]`): Next 16 lo exige.
+- El número de WhatsApp y el mensaje siguen repetidos en Navbar, Hero y Contact, como en la versión original; extraerlos a una constante compartida queda pendiente de decisión.
+- Las opiniones son **demo** (nombres y textos ilustrativos) y las respuestas médicas de las preguntas frecuentes deben confirmarlas el doctor antes de publicar.
 - Los valores de las sombras llevan `rgb()` porque son la definición del token.
 - La foto del doctor se muestra recortada (es de cuerpo entero) y la foto del logotipo (`logo.jpg`) se funde con `mix-blend-mode: multiply` porque tiene fondo blanco.

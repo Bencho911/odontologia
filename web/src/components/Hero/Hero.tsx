@@ -51,7 +51,7 @@ export default function Hero() {
               src="/clinica-recepcion.png"
               alt="Recepción del consultorio del Dr. Felipe Gómez Amaya: mostrador de mármol, rótulo con su nombre y pasillo iluminado"
               fill
-              priority
+              preload
               sizes="(min-width: 64rem) 520px, 92vw"
               quality={85}
               className={styles.img}

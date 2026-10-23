@@ -45,7 +45,8 @@
 .ham:hover { background: var(--marble-deep); }
 
 .mobile { display: none; background: var(--marble); border-top: 1px solid var(--line); }
-.mobileOpen { display: block; }
+/* En pantallas bajas (móvil horizontal) el menú abierto puede desplazarse en vez de salirse de la pantalla */
+.mobileOpen { display: block; max-height: calc(100dvh - var(--nav-h)); overflow-y: auto; }
 .mobile ul { padding-block: 0.5rem 1.25rem; }
 .mLink {
   display: flex; align-items: center; min-height: 3rem;
@@ -53,6 +54,7 @@
   border-bottom: 1px solid var(--line);
 }
 .mCta { padding-top: 1rem; }
+.mCtaBtn { width: 100%; }
 
 @media (min-width: 64rem) {
   .desktop { display: block; }

@@ -53,7 +53,7 @@ export default function Cases() {
                     />
                   </div>
                   <figcaption>
-                    <strong>{c.title}</strong>
+                    <h3>{c.title}</h3>
                     <span>{c.text}</span>
                   </figcaption>
                 </figure>

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Reveal from "@/components/Reveal/Reveal";
 import styles from "./Clinic.module.css";
 
-// Cada escena aparece una sola vez. `tall` marca las fotos verticales.
+// Cinco escenas distintas en el mosaico (la recepción también abre la página, con otro encuadre). `tall` marca las fotos verticales.
 const photos = [
   { src: "/clinica-recepcion.png", w: 721, h: 521, alt: "Recepción con mostrador de mármol y rótulo del Dr. Felipe Gómez Amaya", label: "Recepción" },
   { src: "/clinica-sillon.png", w: 721, h: 658, alt: "Unidad odontológica blanca con paredes de mármol y madera, vista desde la puerta", label: "Sala de atención" },

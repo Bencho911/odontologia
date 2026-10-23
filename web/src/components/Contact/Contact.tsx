@@ -1,121 +1,161 @@
 "use client";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Phone, MapPin, Mail, MessageCircle, Clock } from "lucide-react";
+import { Phone, MapPin, Mail, MessageCircle, Clock, CircleAlert, Send } from "lucide-react";
+import Reveal from "@/components/Reveal/Reveal";
 import styles from "./Contact.module.css";
 
 const WHATSAPP = "573143457474";
 
-export default function Contact() {
-  const [form, setForm] = useState({ nombre: "", email: "", telefono: "", problema: "" });
+type Form = { nombre: string; email: string; telefono: string; problema: string };
+type Errors = Partial<Record<keyof Form, string>>;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+const fields = [
+  { name: "nombre", label: "Nombre", type: "text", placeholder: "Tu nombre completo", autoComplete: "name" },
+  { name: "email", label: "Correo", type: "email", placeholder: "tucorreo@ejemplo.com", autoComplete: "email" },
+  { name: "telefono", label: "Teléfono", type: "tel", placeholder: "300 000 0000", autoComplete: "tel" },
+] as const;
+
+function validate(f: Form): Errors {
+  const e: Errors = {};
+  if (f.nombre.trim().length < 3) e.nombre = "Escribe tu nombre completo.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) e.email = "Revisa el formato del correo.";
+  const digits = f.telefono.replace(/\D/g, "");
+  if (digits.length < 7 || digits.length > 15) e.telefono = "Ingresa un teléfono válido (7 a 15 dígitos).";
+  return e;
+}
+
+export default function Contact() {
+  const [form, setForm] = useState<Form>({ nombre: "", email: "", telefono: "", problema: "" });
+  const [errors, setErrors] = useState<Errors>({});
+  const [sent, setSent] = useState<string | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    if (errors[name as keyof Form]) setErrors((prev) => ({ ...prev, [name]: undefined }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const found = validate(form);
+    setErrors(found);
+    if (Object.keys(found).length > 0) {
+      const first = Object.keys(found)[0];
+      document.getElementById(`contact-${first}`)?.focus();
+      return;
+    }
     const msg = encodeURIComponent(
-      `Hola Dr. Felipe! Me pongo en contacto desde la web.\n\n` +
-      `*Nombre:* ${form.nombre}\n` +
-      `*Email:* ${form.email}\n` +
-      `*Teléfono:* ${form.telefono}\n` +
-      `*Consulta:* ${form.problema}`
+      `Hola Dr. Felipe, me pongo en contacto desde la web.\n\n` +
+        `*Nombre:* ${form.nombre}\n` +
+        `*Correo:* ${form.email}\n` +
+        `*Teléfono:* ${form.telefono}\n` +
+        `*Consulta:* ${form.problema || "—"}`,
     );
-    window.open(`https://wa.me/${WHATSAPP}?text=${msg}`, "_blank");
+    const url = `https://wa.me/${WHATSAPP}?text=${msg}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+    setSent(url);
   };
 
   return (
-    <section id="contacto" className={styles.section}>
-      <div className="container">
-        <div className={styles.grid}>
-          {/* Left — info */}
-          <div className={styles.info}>
-            <div className={styles.infoHeader}>
-              <motion.span className="section-label" style={{ color: "rgba(212,228,244,0.9)" }} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                Saca un turno
-              </motion.span>
-              <motion.h2 className={styles.infoTitle} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-                Contacto
-              </motion.h2>
-            </div>
+    <section id="contacto" className={`section on-dark ${styles.section}`} aria-labelledby="contacto-title">
+      <div className={`container section-rule ${styles.grid}`}>
+        <Reveal>
+          <h2 id="contacto-title" className={styles.title}>Agenda tu cita</h2>
+          <p className={styles.lead}>Cuéntanos qué necesitas y te respondemos por WhatsApp para coordinar tu valoración.</p>
 
-            <div className={styles.contactItems}>
-              <div className={styles.contactBlock}>
-                <span className={styles.contactLabel}><Mail size={16} /> Escríbenos al Mail</span>
-                <a href="mailto:felipegomezamaya@gmail.com" className={styles.contactValue}>felipegomezamaya@gmail.com</a>
-              </div>
-              <div className={styles.divider} />
-              <div className={styles.contactBlock}>
-                <span className={styles.contactLabel}><MessageCircle size={16} /> Chatea con Nosotros</span>
-                <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer" className={styles.contactValue}>+57 314 345 7474</a>
-              </div>
-              <div className={styles.divider} />
-              <div className={styles.contactBlock}>
-                <span className={styles.contactLabel}><Phone size={16} /> Llámanos</span>
-                <a href="tel:3143457474" className={styles.contactValue}>314 345 7474</a>
-              </div>
-              <div className={styles.divider} />
-              <div className={styles.contactBlock}>
-                <span className={styles.contactLabel}><MapPin size={16} /> Visítanos</span>
-                <a
-                  href="https://maps.google.com/?q=Carrera+12+0N-20+Medisalud+Armenia+Quindio"
-                  target="_blank" rel="noopener noreferrer"
-                  className={styles.contactValue}
-                >
-                  Cra. 12 # 0N-20, Medisalud 805<br />Armenia, Quindío
-                </a>
-                <span className={styles.contactSub}><Clock size={13} /> Lunes a Sábado · 8am – 6pm</span>
-              </div>
-            </div>
-          </div>
+          <ul className={styles.items}>
+            <li>
+              <span className={styles.label}><MessageCircle size={18} aria-hidden="true" /> WhatsApp</span>
+              <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer" className={styles.value}>
+                +57 314 345 7474<span className="sr-only"> (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li>
+              <span className={styles.label}><Phone size={18} aria-hidden="true" /> Llamadas</span>
+              <a href="tel:+573143457474" className={styles.value}>314 345 7474</a>
+            </li>
+            <li>
+              <span className={styles.label}><Mail size={18} aria-hidden="true" /> Correo</span>
+              <a href="mailto:felipegomezamaya@gmail.com" className={styles.value}>felipegomezamaya@gmail.com</a>
+            </li>
+            <li>
+              <span className={styles.label}><MapPin size={18} aria-hidden="true" /> Consultorio</span>
+              <a
+                href="https://maps.google.com/?q=Carrera+12+0N-20+Medisalud+Armenia+Quindio"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.value}
+              >
+                Cra. 12 # 0N-20, Medisalud 805<br />Armenia, Quindío
+                <span className="sr-only"> (se abre en una pestaña nueva)</span>
+              </a>
+              <span className={styles.sub}><Clock size={14} aria-hidden="true" /> Lunes a sábado · 8 a. m. – 6 p. m.</span>
+            </li>
+          </ul>
+        </Reveal>
 
-          {/* Right — form */}
-          <motion.div className={styles.formCard} initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <h3 className={styles.formTitle}>Ponete en contacto para coordinar un turno</h3>
-            <form onSubmit={handleSubmit} className={styles.form}>
-              {[
-                { name: "nombre", label: "Nombre", type: "text", placeholder: "Tu nombre completo" },
-                { name: "email", label: "Email", type: "email", placeholder: "tu@email.com" },
-                { name: "telefono", label: "Teléfono", type: "tel", placeholder: "+57 300 000 0000" },
-              ].map(f => (
-                <div key={f.name} className={styles.field}>
-                  <label className={styles.fieldLabel}>{f.label}</label>
-                  <input
-                    type={f.type}
-                    name={f.name}
-                    placeholder={f.placeholder}
-                    value={form[f.name as keyof typeof form]}
-                    onChange={handleChange}
-                    className={styles.input}
-                    required
-                    id={`contact-${f.name}`}
-                  />
-                </div>
-              ))}
+        <Reveal delay={0.1}>
+          <div className={`${styles.card} on-light`}>
+            <h3 className={styles.formTitle}>Pide tu cita en un minuto</h3>
+            <form onSubmit={handleSubmit} className={styles.form} noValidate>
+              {fields.map((f) => {
+                const err = errors[f.name];
+                return (
+                  <div key={f.name} className={styles.field}>
+                    <label htmlFor={`contact-${f.name}`} className={styles.fieldLabel}>{f.label}</label>
+                    <input
+                      id={`contact-${f.name}`}
+                      name={f.name}
+                      type={f.type}
+                      placeholder={f.placeholder}
+                      autoComplete={f.autoComplete}
+                      value={form[f.name]}
+                      onChange={handleChange}
+                      className={styles.input}
+                      required
+                      aria-invalid={err ? true : undefined}
+                      aria-describedby={err ? `contact-${f.name}-error` : undefined}
+                    />
+                    <p id={`contact-${f.name}-error`} className={styles.error} aria-live="polite">{err}</p>
+                  </div>
+                );
+              })}
+
               <div className={styles.field}>
-                <label className={styles.fieldLabel}>Consulta o motivo</label>
+                <label htmlFor="contact-problema" className={styles.fieldLabel}>
+                  Motivo de la cita <span className={styles.optional}>(opcional)</span>
+                </label>
                 <textarea
+                  id="contact-problema"
                   name="problema"
-                  placeholder="Cuéntanos brevemente qué necesitas..."
+                  placeholder="Cuéntanos brevemente qué necesitas"
                   value={form.problema}
                   onChange={handleChange}
                   className={styles.textarea}
                   rows={4}
-                  id="contact-problema"
                 />
               </div>
-              <button type="submit" className={`btn btn-white ${styles.submit}`} id="contact-submit">
-                Enviar por WhatsApp
-              </button>
-            </form>
-          </motion.div>
-        </div>
-      </div>
 
-      {/* Clinic photo strip */}
-      <div className={styles.photoStrip}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/clinica.jpg" alt="Consultorio Dr. Felipe Gómez" />
+              <button type="submit" className={`btn btn-primary btn-lg ${styles.submit}`}>
+                <Send size={18} aria-hidden="true" /> Enviar por WhatsApp
+              </button>
+
+              <div role="status" className={styles.status}>
+                {sent && (
+                  <p>
+                    Abrimos WhatsApp con tu mensaje. Si no se abrió,{" "}
+                    <a href={sent} target="_blank" rel="noopener noreferrer">toca aquí para continuar</a>.
+                  </p>
+                )}
+                {Object.keys(errors).length > 0 && (
+                  <p className={styles.errorSummary}>
+                    <CircleAlert size={16} aria-hidden="true" /> Revisa los campos marcados.
+                  </p>
+                )}
+              </div>
+            </form>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

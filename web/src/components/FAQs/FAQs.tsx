@@ -1,51 +1,36 @@
-"use client";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import Reveal from "@/components/Reveal/Reveal";
 import styles from "./FAQs.module.css";
 
 const faqs = [
-  { q: "¿Cuánto tiempo dura un tratamiento de ortodoncia?", a: "El tiempo varía según cada caso. La ortodoncia convencional suele durar entre 12 y 24 meses, mientras que la invisible puede ser más corta. El Dr. Gómez evaluará tu caso en la primera cita para darte un tiempo estimado personalizado." },
-  { q: "¿Atienden con EPS o plan complementario?", a: "Manejamos consultas particulares. Sin embargo, algunos procedimientos pueden ser cubiertos parcialmente por tu EPS dependiendo de la entidad. Te recomendamos consultar directamente con tu EPS antes de tu cita." },
-  { q: "¿Cómo agendo mi primera cita?", a: "Puedes agendar tu cita por WhatsApp al 314 345 7474, o a través del formulario de contacto en nuestra página. Atendemos de lunes a sábado con horarios flexibles." },
-  { q: "¿El blanqueamiento dental daña el esmalte?", a: "No, el blanqueamiento profesional realizado en el consultorio es seguro para el esmalte cuando se hace con los protocolos correctos. El Dr. Gómez utiliza productos de alta calidad y concentración adecuada para cada paciente." },
-  { q: "¿La ortodoncia invisible es tan efectiva como la convencional?", a: "En la mayoría de los casos, sí. Los alineadores invisibles ofrecen resultados comparables a los brackets para casos leves y moderados. Para casos complejos, el Dr. Gómez te recomendará la opción más efectiva para ti." },
+  { q: "¿Cuánto tiempo dura un tratamiento de ortodoncia?", a: "Depende de cada caso. La ortodoncia convencional suele durar entre 12 y 24 meses, y la invisible puede ser más corta. En la primera cita el Dr. Gómez evalúa tu caso y te da un tiempo estimado." },
+  { q: "¿Atienden con EPS o plan complementario?", a: "Atendemos consultas particulares. Algunos procedimientos pueden estar cubiertos en parte por tu EPS, según la entidad; te recomendamos preguntarle directamente antes de tu cita." },
+  { q: "¿Cómo agendo mi primera cita?", a: "Escríbenos por WhatsApp al 314 345 7474 o usa el formulario de contacto de esta página. Atendemos de lunes a sábado, de 8 a. m. a 6 p. m." },
+  { q: "¿El blanqueamiento dental daña el esmalte?", a: "No. Hecho en consultorio y con el protocolo correcto, el blanqueamiento profesional es seguro para el esmalte. Se usan productos de calidad y una concentración adecuada para cada paciente." },
+  { q: "¿La ortodoncia invisible es tan efectiva como los brackets?", a: "En la mayoría de los casos leves y moderados, sí. Para casos complejos, el Dr. Gómez te recomendará la opción más efectiva para ti." },
 ];
 
+/* <details> nativo: accesible por teclado y lector de pantalla sin JavaScript. Con `name`, abrir una pregunta cierra la otra. */
 export default function FAQs() {
-  const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className={styles.section}>
-      <div className="container">
-        <div className={styles.header}>
-          <motion.span className="section-label" style={{ textAlign: "center" }} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            Sacate las dudas
-          </motion.span>
-          <motion.h2 className="section-title" style={{ textAlign: "center" }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-            Preguntas Frecuentes
-          </motion.h2>
-        </div>
+    <section id="preguntas" className={`section ${styles.section}`} aria-labelledby="preguntas-title">
+      <div className={`container section-rule ${styles.wrap}`}>
+        <Reveal>
+          <h2 id="preguntas-title">Resuelve tus dudas</h2>
+          <p className={`lead ${styles.lead}`}>Lo que más nos preguntan antes de empezar un tratamiento.</p>
+        </Reveal>
 
         <div className={styles.list}>
           {faqs.map((f, i) => (
-            <motion.div key={i} className={`${styles.item} ${open === i ? styles.itemOpen : ""}`}
-              initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}>
-              <button className={styles.question} onClick={() => setOpen(open === i ? null : i)} id={`faq-${i}`}>
-                <span>{f.q}</span>
-                <motion.span animate={{ rotate: open === i ? 180 : 0 }} transition={{ duration: 0.25 }}>
-                  <ChevronDown size={22} color="var(--blue)" />
-                </motion.span>
-              </button>
-              <AnimatePresence>
-                {open === i && (
-                  <motion.div className={styles.answer}
-                    initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: "easeInOut" }}>
-                    <p>{f.a}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+            <Reveal key={f.q} delay={i * 0.05}>
+              <details className={styles.item} name="faq" open={i === 0}>
+                <summary className={styles.question}>
+                  <span>{f.q}</span>
+                  <ChevronDown size={22} className={styles.chevron} aria-hidden="true" />
+                </summary>
+                <p className={styles.answer}>{f.a}</p>
+              </details>
+            </Reveal>
           ))}
         </div>
       </div>

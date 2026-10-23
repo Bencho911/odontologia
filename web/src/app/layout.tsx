@@ -1,20 +1,66 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Bricolage_Grotesque, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 
+// Fuentes autoalojadas por next/font: sin peticiones a Google desde el navegador.
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage",
+  display: "swap",
+});
+const sourceSans = Source_Sans_3({
+  subsets: ["latin"],
+  variable: "--font-source",
+  display: "swap",
+});
+
+const TITLE = "Dr. Felipe Gómez Amaya | Ortodoncia y ortopedia maxilar en Armenia, Quindío";
+const DESCRIPTION =
+  "Consultorio del Dr. Felipe Gómez Amaya en Armenia, Quindío: ortodoncia convencional e invisible, ortopedia maxilar, blanqueamiento, diseño de sonrisa, endodoncia, rehabilitación oral y limpieza dental. Agenda tu cita: 314 345 7474.";
+
 export const metadata: Metadata = {
-  title: "Dr. Felipe Gómez Amaya | Odontología Especializada en Armenia, Quindío",
-  description:
-    "Consultorio odontológico del Dr. Felipe Gómez Amaya en Armenia, Quindío. Servicios de ortodoncia convencional e invisible, blanqueamiento dental, diseño de sonrisa, endodoncia, rehabilitación oral y limpieza dental. Agenda tu cita: 314-345-7474.",
+  // Define NEXT_PUBLIC_SITE_URL con el dominio real al publicar (se usa para las imágenes de Open Graph).
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  title: TITLE,
+  description: DESCRIPTION,
   keywords:
-    "odontólogo Armenia, dentista Armenia Quindío, ortodoncia Armenia, diseño de sonrisa Armenia, blanqueamiento dental Armenia, endodoncia Armenia, Dr Felipe Gómez",
+    "ortodoncista Armenia, ortodoncia Armenia Quindío, ortopedia maxilar, ortodoncia invisible, diseño de sonrisa, blanqueamiento dental, endodoncia, Dr Felipe Gómez Amaya",
   authors: [{ name: "Dr. Felipe Gómez Amaya" }],
   openGraph: {
-    title: "Dr. Felipe Gómez Amaya | Odontología Especializada",
-    description:
-      "Tu sonrisa es nuestra especialidad. Odontología de alta calidad en Armenia, Quindío.",
+    title: TITLE,
+    description: DESCRIPTION,
     type: "website",
     locale: "es_CO",
+    images: [{ url: "/clinica-recepcion.png", width: 721, height: 521, alt: "Recepción del consultorio del Dr. Felipe Gómez Amaya" }],
   },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: ["/clinica-recepcion.png"] },
+};
+
+export const viewport: Viewport = { themeColor: "#17415C" };
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  name: "Dr. Felipe Gómez Amaya",
+  description: DESCRIPTION,
+  medicalSpecialty: "Orthodontics",
+  telephone: "+57 314 345 7474",
+  email: "felipegomezamaya@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Cra. 12 # 0N-20, Medisalud, consultorio 805",
+    addressLocality: "Armenia",
+    addressRegion: "Quindío",
+    addressCountry: "CO",
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      opens: "08:00",
+      closes: "18:00",
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -23,8 +69,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body>{children}</body>
+    <html lang="es" className={`${bricolage.variable} ${sourceSans.variable}`}>
+      <head>
+        {/* Sin JavaScript, el contenido que se funde al hacer scroll debe verse igual */}
+        <noscript>
+          <style>{`[style*="opacity: 0"],[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      </head>
+      <body>
+        <a href="#contenido" className="skip-link">Saltar al contenido</a>
+        {children}
+      </body>
     </html>
   );
 }

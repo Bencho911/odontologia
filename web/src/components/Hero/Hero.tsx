@@ -1,72 +1,70 @@
-"use client";
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { MessageCircle, Phone } from "lucide-react";
+import { MessageCircle, Phone, Check, MapPin } from "lucide-react";
 import styles from "./Hero.module.css";
 
 const WHATSAPP = "573143457474";
-const WA_MSG = encodeURIComponent("Hola Dr. Felipe! Me gustaría agendar una cita. ¿Cuándo tiene disponibilidad?");
+const WA_MSG = encodeURIComponent("Hola Dr. Felipe, me gustaría agendar una cita. ¿Cuándo tiene disponibilidad?");
 
+const facts = [
+  "Ortodoncia convencional e invisible",
+  "Ortopedia maxilar en niños y adolescentes",
+  "Diseño de sonrisa y rehabilitación oral",
+];
+
+/* Componente de servidor: se ve aunque falle el JavaScript y la foto principal carga con prioridad. */
 export default function Hero() {
   return (
-    <section id="inicio" className={styles.hero}>
+    <section id="inicio" className={styles.hero} aria-labelledby="hero-title">
       <div className={`container ${styles.inner}`}>
-        {/* Left */}
         <div className={styles.left}>
-          <motion.span className="section-label" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            Ortodoncista · Armenia, Quindío
-          </motion.span>
+          <h1 id="hero-title" className="hero-rise" style={{ "--d": "0ms" } as React.CSSProperties}>
+            Ortodoncia que cuida tu sonrisa y tu mordida.
+          </h1>
 
-          <motion.h1 className={`section-title ${styles.heading}`} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
-            Dr. Felipe<br />Gómez Amaya
-          </motion.h1>
+          <p className={`lead hero-rise ${styles.sub}`} style={{ "--d": "120ms" } as React.CSSProperties}>
+            Con el Dr. Felipe Gómez Amaya, ortodoncista en Armenia, Quindío: alineadores y brackets, ortopedia maxilar y diseño de sonrisa, en un consultorio moderno y tranquilo.
+          </p>
 
-          <motion.p className={styles.sub} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.25 }}>
-            Transformamos sonrisas con ortodoncia convencional e invisible, blanqueamiento dental, diseño de sonrisa y mucho más. Atención personalizada con tecnología de punta en el corazón de Armenia.
-          </motion.p>
-
-          <motion.div className={styles.actions} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.38 }}>
-            <a href={`https://wa.me/${WHATSAPP}?text=${WA_MSG}`} target="_blank" rel="noopener noreferrer" className="btn btn-blue" id="hero-wa-cta">
-              <MessageCircle size={18} /> Agendar por WhatsApp
+          <div className={`${styles.actions} hero-rise`} style={{ "--d": "220ms" } as React.CSSProperties}>
+            <a href={`https://wa.me/${WHATSAPP}?text=${WA_MSG}`} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp btn-lg">
+              <MessageCircle size={20} aria-hidden="true" /> Agendar por WhatsApp
+              <span className="sr-only"> (se abre en una pestaña nueva)</span>
             </a>
-            <a href="tel:3143457474" className="btn btn-outline-cyan" id="hero-phone-cta">
-              <Phone size={16} /> Llamar ahora
+            <a href="tel:+573143457474" className="btn btn-outline btn-lg">
+              <Phone size={18} aria-hidden="true" /> Llamar ahora
             </a>
-          </motion.div>
+          </div>
 
-          {/* Stats */}
-          <motion.div className={styles.stats} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }}>
-            {[
-              { n: "+500", l: "Pacientes satisfechos" },
-              { n: "7+", l: "Años de experiencia" },
-              { n: "7", l: "Especialidades" },
-            ].map(s => (
-              <div key={s.l} className={styles.stat}>
-                <span className={styles.statN}>{s.n}</span>
-                <span className={styles.statL}>{s.l}</span>
-              </div>
+          <ul className={`${styles.facts} hero-rise`} style={{ "--d": "320ms" } as React.CSSProperties}>
+            {facts.map((f) => (
+              <li key={f}>
+                <span className={styles.tick} aria-hidden="true"><Check size={14} strokeWidth={3} /></span>
+                {f}
+              </li>
             ))}
-          </motion.div>
+          </ul>
         </div>
 
-        {/* Right — Doctor photo */}
-        <motion.div className={styles.right} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.15 }}>
-          <div className={styles.photoFrame}>
-            <div className={styles.photoBubble1} />
-            <div className={styles.photoBubble2} />
-            <div className={styles.photoCard}>
-              <Image src="/Doctor.jpeg" alt="Dr. Felipe Gómez Amaya — Ortodoncista en Armenia Quindío" fill style={{ objectFit: "cover", objectPosition: "top center" }} priority quality={92} />
-            </div>
-            {/* Location badge */}
-            <div className={styles.badge}>
-              <span className={styles.badgeDot} />
-              <div>
-                <p className={styles.badgeMain}>Medisalud, Consul. 805</p>
-                <p className={styles.badgeSub}>Armenia, Quindío</p>
-              </div>
-            </div>
+        <div className={styles.right}>
+          <div className={`${styles.photo} hero-wipe`}>
+            <Image
+              src="/clinica-recepcion.png"
+              alt="Recepción del consultorio del Dr. Felipe Gómez Amaya: mostrador de mármol, rótulo con su nombre y pasillo iluminado"
+              fill
+              priority
+              sizes="(min-width: 64rem) 520px, 92vw"
+              quality={85}
+              className={styles.img}
+            />
           </div>
-        </motion.div>
+          <div className={styles.badge}>
+            <MapPin size={18} aria-hidden="true" />
+            <p>
+              <strong>Medisalud, consultorio 805</strong>
+              <span>Armenia, Quindío</span>
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

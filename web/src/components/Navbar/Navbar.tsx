@@ -1,111 +1,127 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Phone, Menu, X, MessageCircle } from "lucide-react";
 import Image from "next/image";
+import { Phone, Menu, X, MessageCircle } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 const navLinks = [
-  { label: "Inicio", href: "inicio" },
-  { label: "Servicios", href: "servicios" },
-  { label: "El Doctor", href: "doctor" },
-  { label: "Clínica", href: "clinica" },
-  { label: "Contacto", href: "contacto" },
+  { label: "Servicios", id: "servicios" },
+  { label: "Casos", id: "casos" },
+  { label: "El doctor", id: "doctor" },
+  { label: "Consultorio", id: "clinica" },
+  { label: "Contacto", id: "contacto" },
 ];
 
 const WHATSAPP = "573143457474";
-const WA_MSG = encodeURIComponent("Hola Dr. Felipe! Me gustaría agendar una cita. ¿Cuándo tiene disponibilidad?");
+const WA_MSG = encodeURIComponent("Hola Dr. Felipe, me gustaría agendar una cita. ¿Cuándo tiene disponibilidad?");
+const WA_URL = `https://wa.me/${WHATSAPP}?text=${WA_MSG}`;
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [active, setActive] = useState("inicio");
+  const [active, setActive] = useState("");
 
+  // Borde bajo la barra al hacer scroll
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 10);
-      const ids = navLinks.map(l => l.href);
-      for (const id of [...ids].reverse()) {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top <= 120) { setActive(id); break; }
-      }
-    };
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const goto = (id: string) => {
-    setMenuOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
+  // Sección activa: la que cruza la franja superior de la pantalla
+  useEffect(() => {
+    const els = navLinks.map((l) => document.getElementById(l.id)).filter(Boolean) as HTMLElement[];
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
+      },
+      { rootMargin: "-30% 0px -60% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  // Esc cierra el menú móvil y devuelve el foco al botón
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        document.getElementById("menu-toggle")?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   return (
-    <motion.nav
-      className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <header className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
       <div className={`container ${styles.inner}`}>
-        {/* Logo */}
-        <button className={styles.logo} onClick={() => goto("inicio")}>
-          <div className={styles.logoImgWrap}>
-            <Image src="/logo.jpg" alt="Logo Dr. Felipe Gómez" width={44} height={44} style={{ objectFit: "contain" }} priority />
-          </div>
-          <div>
-            <span className={styles.logoName}>Dr. Felipe Gómez A.</span>
-            <span className={styles.logoSub}>Ortodoncista</span>
-          </div>
-        </button>
+        <a href="#inicio" className={styles.logo}>
+          <Image src="/logo.jpg" alt="" width={48} height={26} sizes="48px" priority className={styles.logoImg} />
+          <span className={styles.logoText}>
+            <span className={styles.logoName}>Dr. Felipe Gómez Amaya</span>
+            <span className={styles.logoSub}>Ortodoncia y ortopedia maxilar</span>
+          </span>
+        </a>
 
-        {/* Desktop links */}
-        <ul className={styles.links}>
-          {navLinks.map(l => (
-            <li key={l.href}>
-              <button
-                className={`${styles.link} ${active === l.href ? styles.linkActive : ""}`}
-                onClick={() => goto(l.href)}
-              >
-                {l.label}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <nav aria-label="Principal" className={styles.desktop}>
+          <ul className={styles.links}>
+            {navLinks.map((l) => (
+              <li key={l.id}>
+                <a
+                  href={`#${l.id}`}
+                  className={`${styles.link} ${active === l.id ? styles.linkActive : ""}`}
+                  aria-current={active === l.id ? "location" : undefined}
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-        {/* Actions */}
         <div className={styles.actions}>
-          <a href="tel:3143457474" className={styles.phone}><Phone size={15} /> 314 345 7474</a>
-          <a href={`https://wa.me/${WHATSAPP}?text=${WA_MSG}`} target="_blank" rel="noopener noreferrer" className={`btn btn-blue ${styles.ctaBtn}`} id="navbar-cta">
-            <MessageCircle size={16} /> Agendar Cita
+          <a href="tel:+573143457474" className={styles.phone}>
+            <Phone size={16} aria-hidden="true" /> 314 345 7474
+          </a>
+          <a href={WA_URL} target="_blank" rel="noopener noreferrer" className={`btn btn-accent ${styles.cta}`}>
+            <MessageCircle size={18} aria-hidden="true" /> Agendar cita
+            <span className="sr-only"> (se abre en una pestaña nueva)</span>
           </a>
         </div>
 
-        {/* Hamburger */}
-        <button className={styles.ham} onClick={() => setMenuOpen(!menuOpen)} aria-label="Menú">
-          <AnimatePresence mode="wait">
-            {menuOpen
-              ? <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}><X size={22} /></motion.span>
-              : <motion.span key="m" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}><Menu size={22} /></motion.span>
-            }
-          </AnimatePresence>
+        <button
+          id="menu-toggle"
+          type="button"
+          className={styles.ham}
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-expanded={menuOpen}
+          aria-controls="menu-movil"
+          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+        >
+          {menuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
         </button>
       </div>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div className={styles.mobile} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }}>
-            {navLinks.map((l, i) => (
-              <motion.button key={l.href} className={`${styles.mLink} ${active === l.href ? styles.mLinkActive : ""}`} onClick={() => goto(l.href)} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}>
+      <nav id="menu-movil" aria-label="Móvil" className={`${styles.mobile} ${menuOpen ? styles.mobileOpen : ""}`} hidden={!menuOpen}>
+        <ul className="container">
+          {navLinks.map((l) => (
+            <li key={l.id}>
+              <a href={`#${l.id}`} className={styles.mLink} onClick={() => setMenuOpen(false)}>
                 {l.label}
-              </motion.button>
-            ))}
-            <a href={`https://wa.me/${WHATSAPP}?text=${WA_MSG}`} target="_blank" rel="noopener noreferrer" className="btn btn-blue" style={{ margin: "12px 20px 20px", justifyContent: "center" }}>
-              <MessageCircle size={16} /> Agendar por WhatsApp
+              </a>
+            </li>
+          ))}
+          <li className={styles.mCta}>
+            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="btn btn-whatsapp btn-lg" style={{ width: "100%" }}>
+              <MessageCircle size={18} aria-hidden="true" /> Agendar por WhatsApp
+              <span className="sr-only"> (se abre en una pestaña nueva)</span>
             </a>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+          </li>
+        </ul>
+      </nav>
+    </header>
   );
 }

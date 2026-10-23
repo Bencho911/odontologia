@@ -1,37 +1,43 @@
-"use client";
-import { motion } from "framer-motion";
 import Image from "next/image";
+import Reveal from "@/components/Reveal/Reveal";
 import styles from "./Doctor.module.css";
 
 export default function Doctor() {
   return (
-    <section id="doctor" className={styles.section}>
-      <div className="container">
-        <div className={styles.grid}>
-          {/* Left - Photo */}
-          <motion.div className={styles.left} initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <div className={styles.photoWrap}>
-              <Image src="/Doctor.jpeg" alt="Dr. Felipe Gómez Amaya - Ortodoncista" fill style={{ objectFit: "cover", objectPosition: "top" }} quality={90} />
-            </div>
-          </motion.div>
-
-          {/* Right - Text */}
-          <div className={styles.right}>
-            <div className={styles.header}>
-              <motion.span className="section-label" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                Sobre Mí
-              </motion.span>
-              <motion.h2 className="section-title" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-                Dr. Felipe<br />Gómez Amaya
-              </motion.h2>
-            </div>
-            
-            <motion.div className={styles.content} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.5 }}>
-              <p>Odontólogo especialista en Ortodoncia, dedicado a transformar sonrisas con las técnicas más avanzadas y un enfoque humano.</p>
-              <p>Egresado de [Universidad], con más de 7 años de experiencia brindando atención de alta calidad. Miembro activo de asociaciones odontológicas reconocidas, siempre en constante actualización para ofrecer los mejores tratamientos a mis pacientes.</p>
-              <p>Mi objetivo es que cada paciente se sienta cómodo, seguro y feliz con su sonrisa, utilizando tecnología de punta y tratamientos personalizados.</p>
-            </motion.div>
+    <section id="doctor" className="section" aria-labelledby="doctor-title">
+      <div className={`container section-rule ${styles.grid}`}>
+        <Reveal className={styles.photoCol}>
+          {/* La foto es de cuerpo entero: se recorta desde la cabeza hasta las rodillas para que el rostro se vea */}
+          <div className={styles.photoWrap}>
+            <Image
+              src="/doctor-felipe.jpeg"
+              alt="El Dr. Felipe Gómez Amaya con uniforme azul de trabajo"
+              fill
+              sizes="(min-width: 64rem) 320px, 80vw"
+              quality={88}
+              className={styles.photo}
+            />
           </div>
+        </Reveal>
+
+        <div className={styles.text}>
+          <Reveal>
+            <h2 id="doctor-title">Dr. Felipe Gómez Amaya</h2>
+            <p className={styles.role}>Ortodoncia y ortopedia maxilar</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className={styles.content}>
+              <p>
+                Odontólogo especialista en ortodoncia y ortopedia maxilar, dedicado a que cada paciente termine su tratamiento con una sonrisa y una mordida que funcionen bien y se vean naturales.
+              </p>
+              <p>
+                Atiende en Armenia, Quindío, con una forma de trabajo sencilla: primero evalúa tu caso, luego te explica las opciones con claridad y acuerda contigo el plan, los tiempos y el seguimiento.
+              </p>
+              <p>
+                Su meta es que te sientas cómodo y seguro desde la primera cita, con tratamientos personalizados y tecnología actual.
+              </p>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

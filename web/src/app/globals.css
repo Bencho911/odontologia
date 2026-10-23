@@ -1,181 +1,173 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;600&family=Raleway:wght@300;400;500;600&display=swap');
-
 /* ============================================
-   DESIGN TOKENS — Figma Design System
+   TOKENS — derivados del logotipo (azul petróleo + verde azulado)
+   y del consultorio (mármol, madera y latón). Ver DESIGN.md
    ============================================ */
 :root {
-  /* Colors */
-  --bg:           #FFF9FD;
-  --navy:         #00296D;
-  --blue:         #2977D5;
-  --cyan:         #44C6E9;
-  --light-blue:   #D4E4F4;
-  --dark:         #252525;
-  --gray-dark:    #444444;
-  --gray-mid:     #666666;
-  --white:        #FFF9FD;
-  --pure-white:   #FFFFFF;
+  /* Neutros: mármol cálido */
+  --marble:        #F6F4F0;
+  --marble-deep:   #ECE8E1;
+  --paper:         #FFFFFF;
+  --line:          #D9D3C9;
 
-  /* Gradients */
-  --grad-contact: linear-gradient(180deg, rgba(212,228,244,0.4) 0%, #2977D5 100%);
-  --grad-services-bg: linear-gradient(152.69deg, #F0F6F9 4.51%, #CDDFF2 88.35%);
-  --grad-faqs:    linear-gradient(180deg, #FFF9FD 0%, rgba(212,228,244,0.4) 100%);
+  /* Principal: azul petróleo */
+  --navy-950:      #0F2A3D;
+  --navy-900:      #17415C;
+  --navy-800:      #1F5577;
+  --blue-300:      #9DB5C8;
+  --muted:         #4F6272;
 
-  /* Shadows */
-  --shadow-title: 5px 5px 0px #D4E4F4;
-  --shadow-card:  5px 5px 20px #D4E4F4;
+  /* Acento: verde azulado del logotipo (texto: teal-700) */
+  --teal-300:      #4FD6C0;
+  --teal-400:      #2FBFA6;
+  --teal-700:      #0B7A6A;
 
-  /* Typography */
-  --font-title:   'Poppins', sans-serif;
-  --font-body:    'Source Sans 3', sans-serif;
-  --font-contact: 'Raleway', sans-serif;
+  /* Estados */
+  --danger:        #B3261E;
+  --danger-bg:     #FDECEA;
+  --wa:            #177A45;
 
-  /* Spacing */
-  --section-pad: 80px 0;
-  --container-max: 1548px;
+  /* Tipografía (las variables --font-* las inyecta next/font en layout.tsx) */
+  --font-title:    var(--font-bricolage), system-ui, sans-serif;
+  --font-body:     var(--font-source), system-ui, sans-serif;
 
-  /* Radius */
-  --radius: 15px;
-  --radius-sm: 10px;
+  /* Radios: control (botones, campos) · panel (superficies) */
+  --radius-control: 0.5rem;
+  --radius-panel:   1rem;
+
+  /* Sombras: soft (reposo) · lift (hover) · modal */
+  --shadow-soft:   0 1px 2px rgb(15 42 61 / 0.06), 0 12px 32px -16px rgb(15 42 61 / 0.25);
+  --shadow-lift:   0 2px 4px rgb(15 42 61 / 0.08), 0 20px 40px -16px rgb(15 42 61 / 0.35);
+
+  --ease-out:      cubic-bezier(0.22, 1, 0.36, 1);
+  --nav-h:         4.5rem;
 }
 
 /* ============================================
-   RESET
+   RESET Y BASE
    ============================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 1rem);
   -webkit-font-smoothing: antialiased;
 }
 
 body {
   font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--dark);
-  line-height: 1.6;
-  overflow-x: hidden;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  background: var(--marble);
+  color: var(--navy-950);
+  overflow-x: clip;
 }
 
 img { max-width: 100%; height: auto; display: block; }
-a { text-decoration: none; color: inherit; }
-button { cursor: pointer; border: none; background: none; font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; color: inherit; }
+ul { list-style: none; }
+
+h1, h2, h3 {
+  font-family: var(--font-title);
+  color: var(--navy-950);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+h1 { font-size: clamp(2.5rem, 6vw, 4.75rem); }
+h2 { font-size: clamp(2rem, 4vw, 3.25rem); }
+h3 { font-size: 1.5rem; letter-spacing: -0.01em; line-height: 1.2; }
+
+:focus-visible {
+  outline: 3px solid var(--teal-700);
+  outline-offset: 4px;
+  border-radius: var(--radius-control);
+}
+.on-dark :focus-visible { outline-color: var(--teal-300); }
+.on-light :focus-visible { outline-color: var(--teal-700); }
+
+::selection { background: var(--teal-300); color: var(--navy-950); }
+
+.skip-link {
+  position: fixed; left: 1rem; top: 1rem; z-index: 100;
+  padding: 0.75rem 1.25rem; border-radius: var(--radius-control);
+  background: var(--navy-900); color: var(--marble); font-weight: 600;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
 
 /* ============================================
    LAYOUT
    ============================================ */
 .container {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 90px;
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2rem);
 }
 
-section { position: relative; }
+.section { padding-block: clamp(4rem, 8vw, 7rem); }
+
+/* Línea que abre cada bloque, con una marca verde azulada: indica "sección nueva" */
+.section-rule {
+  position: relative;
+  border-top: 1px solid var(--line);
+  padding-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+.section-rule::before {
+  content: "";
+  position: absolute; left: 0; top: -2px;
+  width: 3rem; height: 3px; background: var(--teal-400);
+}
+.on-dark .section-rule { border-top-color: color-mix(in srgb, var(--blue-300) 35%, transparent); }
+
+.lead { font-size: 1.1875rem; color: var(--muted); max-width: 40rem; }
 
 /* ============================================
-   SECTION HEADER PATTERN
-   ============================================ */
-.section-label {
-  display: block;
-  font-family: var(--font-body);
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--cyan);
-  margin-bottom: 0;
-  line-height: 28px;
-}
-
-.section-title {
-  font-family: var(--font-title);
-  font-weight: 600;
-  font-size: clamp(36px, 4.5vw, 64px);
-  line-height: 1.1;
-  color: var(--navy);
-  text-shadow: var(--shadow-title);
-  letter-spacing: -0.01em;
-}
-
-/* ============================================
-   BUTTONS
+   BOTONES
    ============================================ */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-family: var(--font-title);
-  font-weight: 500;
-  font-size: 18px;
-  border-radius: var(--radius);
-  padding: 14px 32px;
-  transition: all 200ms ease;
-  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 3rem; padding: 0.75rem 1.5rem;
+  font-family: var(--font-title); font-weight: 600; font-size: 1rem; letter-spacing: 0.005em;
+  border-radius: var(--radius-control);
+  transition: transform 200ms var(--ease-out), background-color 200ms, box-shadow 200ms, color 200ms;
   white-space: nowrap;
 }
+.btn:hover { transform: translateY(-0.25rem); }
+.btn:active { transform: translateY(0); }
+.btn-lg { min-height: 3.5rem; padding-inline: 2rem; font-size: 1.0625rem; }
 
-.btn-blue {
-  background: var(--blue);
-  color: var(--white);
-  box-shadow: 0 4px 16px rgba(41,119,213,0.3);
-}
-
-.btn-blue:hover {
-  background: #1e66c0;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(41,119,213,0.4);
-}
-
-.btn-outline-cyan {
-  background: transparent;
-  color: var(--cyan);
-  border: 1px solid var(--cyan);
-}
-
-.btn-outline-cyan:hover {
-  background: rgba(68,198,233,0.08);
-  transform: translateY(-2px);
-}
-
-.btn-white {
-  background: var(--white);
-  color: var(--dark);
-  font-weight: 500;
-}
-
-.btn-white:hover {
-  background: #f0f4f8;
-  transform: translateY(-2px);
-}
-
-.btn-whatsapp {
-  background: linear-gradient(135deg, #25D366, #128C7E);
-  color: white;
-  box-shadow: 0 4px 16px rgba(37,211,102,0.3);
-}
-
-.btn-whatsapp:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(37,211,102,0.45);
-}
+.btn-primary  { background: var(--navy-900); color: var(--marble); box-shadow: var(--shadow-soft); }
+.btn-primary:hover { background: var(--navy-800); }
+.btn-accent   { background: var(--teal-400); color: var(--navy-950); box-shadow: var(--shadow-soft); }
+.btn-accent:hover { background: var(--teal-300); }
+.btn-outline  { border: 1.5px solid var(--navy-900); color: var(--navy-900); }
+.btn-outline:hover { background: var(--navy-900); color: var(--marble); }
+.btn-whatsapp { background: var(--wa); color: var(--paper); box-shadow: var(--shadow-soft); }
+.btn-whatsapp:hover { filter: brightness(1.1); }
+.btn-light    { background: var(--marble); color: var(--navy-950); }
+.btn-light:hover { background: var(--marble-deep); }
 
 /* ============================================
-   SCROLLBAR
+   MOVIMIENTO
+   Una secuencia al cargar el hero (solo CSS: se ve aunque falle el JS).
+   El resto de secciones solo se funde (componente Reveal).
    ============================================ */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--light-blue); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--blue); }
+@keyframes rise { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: none; } }
+@keyframes wipe { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 
-::selection { background: rgba(68,198,233,0.2); color: var(--navy); }
+.hero-rise { animation: rise 0.9s var(--ease-out) both; animation-delay: var(--d, 0ms); }
+.hero-wipe { animation: wipe 1.2s var(--ease-out) 0.3s both; }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-@media (max-width: 1024px) {
-  .container { padding: 0 40px; }
-}
-
-@media (max-width: 640px) {
-  .container { padding: 0 20px; }
-  :root { --section-pad: 60px 0; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-rise, .hero-wipe { animation: none; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .btn:hover { transform: none; }
 }

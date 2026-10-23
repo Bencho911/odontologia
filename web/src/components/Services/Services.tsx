@@ -1,63 +1,50 @@
-"use client";
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { Smile, Sparkles, Zap, Star, Shield, Heart, Droplets } from "lucide-react";
+import { Smile, Sparkles, Zap, Star, Shield, Heart, Droplets, Ruler } from "lucide-react";
+import Reveal from "@/components/Reveal/Reveal";
 import styles from "./Services.module.css";
 
 const services = [
-  { id: "ortodoncia-conv", icon: <Smile size={36} />, title: "Ortodoncia Convencional", desc: "Corrección de la alineación dental y la mordida con brackets metálicos o de zafiro, logrando resultados duraderos y efectivos." },
-  { id: "ortodoncia-inv", icon: <Sparkles size={36} />, title: "Ortodoncia Invisible", desc: "Alineadores transparentes personalizados que corrigen los dientes discretamente, sin brackets ni alambres visibles.", highlight: true },
-  { id: "blanqueamiento", icon: <Zap size={36} />, title: "Blanqueamiento Dental", desc: "Tratamiento profesional que elimina manchas y decoloración, devolviendo la blancura natural de tu sonrisa." },
-  { id: "diseno-sonrisa", icon: <Star size={36} />, title: "Diseño de Sonrisa", desc: "Planificación estética personalizada que combina múltiples tratamientos para la sonrisa perfecta que siempre soñaste.", highlight: true },
-  { id: "endodoncia", icon: <Shield size={36} />, title: "Endodoncia", desc: "Tratamiento del nervio dental para salvar dientes comprometidos y eliminar el dolor con la máxima precisión." },
-  { id: "rehab-oral", icon: <Heart size={36} />, title: "Rehabilitación Oral", desc: "Restauración integral de la función y estética mediante coronas, puentes y prótesis dentales." },
-  { id: "limpieza", icon: <Droplets size={36} />, title: "Limpieza Dental", desc: "Profilaxis profesional que elimina placa, sarro y bacterias, previniendo enfermedades periodontales y caries." },
+  { id: "ortodoncia-conv", icon: Smile, title: "Ortodoncia convencional", specialty: true, desc: "Corrección de la alineación dental y de la mordida con brackets metálicos o de zafiro, con resultados duraderos." },
+  { id: "ortodoncia-inv", icon: Sparkles, title: "Ortodoncia invisible", specialty: true, desc: "Alineadores transparentes hechos a tu medida que corrigen tus dientes sin brackets ni alambres a la vista." },
+  { id: "ortopedia-maxilar", icon: Ruler, title: "Ortopedia maxilar", specialty: true, desc: "Guía el crecimiento de los maxilares en niños y adolescentes para lograr una mordida armónica." },
+  { id: "diseno-sonrisa", icon: Star, title: "Diseño de sonrisa", desc: "Planificación estética personalizada que combina varios tratamientos para lograr la sonrisa que quieres." },
+  { id: "blanqueamiento", icon: Zap, title: "Blanqueamiento dental", desc: "Tratamiento profesional que elimina manchas y decoloración y devuelve la blancura natural de tu sonrisa." },
+  { id: "endodoncia", icon: Shield, title: "Endodoncia", desc: "Tratamiento del nervio dental para salvar dientes comprometidos y quitar el dolor con precisión." },
+  { id: "rehab-oral", icon: Heart, title: "Rehabilitación oral", desc: "Restauración de la función y de la estética con coronas, puentes y prótesis dentales." },
+  { id: "limpieza", icon: Droplets, title: "Limpieza dental", desc: "Profilaxis profesional que elimina placa, sarro y bacterias para prevenir caries y problemas de encías." },
 ];
 
 export default function Services() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-
   return (
-    <section id="servicios" className={styles.section}>
-      {/* Decorative tooth bg */}
-      <div className={styles.toothBg} aria-hidden />
+    <section id="servicios" className="section" aria-labelledby="servicios-title">
+      <div className="container section-rule">
+        <Reveal>
+          <h2 id="servicios-title">Tratamientos para cada necesidad</h2>
+          <p className={`lead ${styles.lead}`}>
+            Ortodoncia y ortopedia maxilar son la especialidad del Dr. Felipe. Además, cuidamos el resto de tu salud oral.
+          </p>
+        </Reveal>
 
-      <div className="container">
-        <div className={styles.header}>
-          <motion.span className="section-label" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
-            Nuestros Tratamientos
-          </motion.span>
-          <motion.h2 className="section-title" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}>
-            Servicios para cada<br />necesidad
-          </motion.h2>
-          <motion.p className={styles.sub} initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.2 }}>
-            Ofrecemos tratamientos odontológicos completos con la última tecnología y un equipo comprometido con tu bienestar.
-          </motion.p>
-        </div>
-
-        <motion.div
-          ref={ref}
-          className={styles.grid}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
-        >
-          {services.map(s => (
-            <motion.div
-              key={s.id}
-              id={s.id}
-              className={`${styles.card} ${s.highlight ? styles.cardHighlight : ""}`}
-              variants={{ hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
-              whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            >
-              <div className={`${styles.icon} ${s.highlight ? styles.iconHighlight : ""}`}>{s.icon}</div>
-              <h3 className={styles.cardTitle}>{s.title}</h3>
-              <p className={styles.cardDesc}>{s.desc}</p>
-              <span className={styles.verMas}>Ver más →</span>
-            </motion.div>
-          ))}
-        </motion.div>
+        <ul className={styles.list}>
+          {services.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <li key={s.id} id={s.id} className={styles.item}>
+                <Reveal delay={(i % 2) * 0.08}>
+                  <div className={styles.row}>
+                    <span className={styles.icon}><Icon size={28} strokeWidth={1.6} aria-hidden="true" /></span>
+                    <div>
+                      <h3 className={styles.title}>
+                        {s.title}
+                        {s.specialty && <span className={styles.tag}>Especialidad</span>}
+                      </h3>
+                      <p className={styles.desc}>{s.desc}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

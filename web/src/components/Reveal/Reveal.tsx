@@ -19,6 +19,7 @@ export default function Reveal({
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    document.documentElement.setAttribute("data-ready", ""); // avisa al seguro del <head> de que hubo hidratación
     const el = ref.current;
     if (!el) return;
     if (!("IntersectionObserver" in window)) {

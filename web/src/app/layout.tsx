@@ -73,7 +73,13 @@ export default function RootLayout({
     <html lang="es" className={`${bricolage.variable} ${sourceSans.variable}`} suppressHydrationWarning>
       <head>
         {/* La clase `js` activa el fundido por scroll; sin JavaScript todo el contenido se ve desde el inicio */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        {/* Seguro: si el JavaScript no llega a hidratar en 4 s (data-ready lo pone Reveal), se quita `js` y todo se muestra */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "var d=document.documentElement;d.classList.add('js');setTimeout(function(){if(!d.hasAttribute('data-ready'))d.classList.remove('js')},4000)",
+          }}
+        />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>

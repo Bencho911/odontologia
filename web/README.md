@@ -1,6 +1,6 @@
 # Dr. Felipe Gómez Amaya · Ortodoncia y ortopedia maxilar
 
-Landing de una página para el consultorio del Dr. Felipe Gómez Amaya (Armenia, Quindío). **Next.js 16 (App Router) + React 19**, CSS Modules y `framer-motion`.
+Landing de una página para el consultorio del Dr. Felipe Gómez Amaya (Armenia, Quindío). **Next.js 16 (App Router) + React 19**, y CSS Modules. Sin librerías de animación: el fundido por scroll usa IntersectionObserver + CSS.
 
 ## Cómo correrlo
 Requiere Node 20+.
@@ -20,7 +20,7 @@ src/
   app/            layout.tsx (fuentes, SEO, JSON-LD) · page.tsx · globals.css (tokens)
   components/
     Navbar  Hero  Services  Cases  Doctor  Clinic  Testimonials  FAQs  Contact  Footer
-    Reveal/       fundido al hacer scroll (único uso de framer-motion en secciones)
+    Reveal/       fundido al hacer scroll (IntersectionObserver + CSS)
 public/           fotos del consultorio, del doctor y de casos; logo
 ```
 Cada componente lleva su `*.module.css`. Los tokens de diseño viven en `globals.css`; las decisiones, en `DESIGN.md`.

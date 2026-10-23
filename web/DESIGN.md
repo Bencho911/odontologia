@@ -37,10 +37,10 @@ El hero muestra la recepción real, con el rótulo del doctor. La foto de cuerpo
 
 ## Movimiento
 - Hero: una secuencia de entrada solo con CSS (se ve aunque falle el JavaScript).
-- Resto: un fundido por scroll (`Reveal`), sin desplazamiento. Se omite con `prefers-reduced-motion`, y en un navegador sin JavaScript el contenido se muestra igual (`<noscript>`).
+- Resto: un fundido por scroll (`Reveal`), sin desplazamiento. Se omite con `prefers-reduced-motion`, y sin JavaScript el contenido se ve igual: el estado oculto solo existe bajo la clase `.js`, que añade un script en el `<head>`. Si el JavaScript no llega a cargar, un seguro de 4 segundos retira esa clase.
 
 ## Accesibilidad
-Enlace "Saltar al contenido", navegación con enlaces reales y `aria-current`, menú móvil con `aria-expanded` y Esc, foco visible (verde oscuro sobre claro y verde claro sobre oscuro), preguntas frecuentes con `<details>` nativo, formulario con etiquetas asociadas, errores `aria-live` y `aria-invalid`, áreas táctiles de 48 px y textos alternativos descriptivos.
+Enlace "Saltar al contenido", navegación con enlaces reales y `aria-current`, menú móvil con etiqueta fija "Menú", `aria-expanded`, desplazamiento propio y Esc, foco visible (verde oscuro sobre claro y verde claro sobre oscuro), preguntas frecuentes con `<details>` nativo, formulario con etiquetas asociadas, errores `aria-live` y `aria-invalid`, áreas táctiles de 48 px y textos alternativos descriptivos.
 
 ## Contenido
 Quité cifras sin base (+500 pacientes, 7+ años), el texto "[Universidad]" y el voseo argentino. Las opiniones están marcadas como **demo**. Las fotos de casos clínicos son del portafolio del doctor (llevan su marca de agua); **antes de publicarlas hace falta el consentimiento por escrito de cada paciente**.
